@@ -1,0 +1,27 @@
+name: PHP CI
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+
+      - name: Install PHPUnit
+        run: |
+          curl -Ls https://phar.phpunit.de/phpunit-10.phar -o phpunit
+          chmod +x phpunit
+          mv phpunit /usr/local/bin/phpunit
+
+      - name: Run tests
+        run: phpunit tests
